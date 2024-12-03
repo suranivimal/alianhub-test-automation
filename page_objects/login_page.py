@@ -1,11 +1,14 @@
 from selenium.webdriver.common.by import By
 from utils.custom_logger import LogGen
 from utils.common_utils import *
+from utils.read_properties import ReadConfig
 
 logger = LogGen.loggen()
 
 
 class LoginPage:
+    timeout = ReadConfig.get_global_timeout()
+
     """
     This class represents the login page of the application.
 
@@ -106,7 +109,7 @@ class LoginPage:
         Waits for the home page to load by checking that the page title contains 'Alian Hub | Home'.
         """
         try:
-            webdriver_wait_for_title_contains(driver=self.driver, element_title="Alian Hub | Home", timeout=60)
+            webdriver_wait_for_title_contains(driver=self.driver, element_title="Alian Hub | Home", timeout=self.timeout)
             logger.info("Home page title verified.")
         except Exception as e:
             logger.error(f"Failed to wait for home page: {e}")
@@ -119,7 +122,7 @@ class LoginPage:
         :return: The text of the warning message.
         """
         try:
-            warning_message_element = WebDriverWait(self.driver, 10).until(
+            warning_message_element = WebDriverWait(self.driver, self.timeout).until(
                 EC.visibility_of_element_located((By.XPATH, self.toast_message_xpath))
             )
             warning_message_text = warning_message_element.text

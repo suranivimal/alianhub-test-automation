@@ -1,15 +1,79 @@
-12/03/2024 12:03:50 PM: INFO: Testing Login with Valid Credentials
-12/03/2024 12:03:56 PM: INFO: Entered username: aliantest385+9500@gmail.com.
-12/03/2024 12:03:56 PM: INFO: Entered password.
-12/03/2024 12:03:56 PM: INFO: Clicked on Login button.
-12/03/2024 12:04:05 PM: INFO: Home page title verified.
-12/03/2024 12:04:05 PM: INFO: Logged in successfully.
-12/03/2024 12:04:05 PM: INFO: Login with valid credentials passed.
-12/03/2024 12:04:09 PM: INFO: Testing Login with Invalid Credentials
-12/03/2024 12:04:15 PM: INFO: Entered username: aliantesting8555@gmail.com.
-12/03/2024 12:04:15 PM: INFO: Entered password.
-12/03/2024 12:04:15 PM: INFO: Clicked on Login button.
-12/03/2024 12:04:16 PM: INFO: Retrieved warning message: Invalid username or password.
-12/03/2024 12:04:16 PM: INFO: Login with invalid credentials passed.
-12/03/2024 12:04:20 PM: INFO: Testing Homepage Title
-12/03/2024 12:04:26 PM: INFO: Homepage title verification passed.
+12/03/2024 07:08:48 PM: INFO: ***** Testing Create Project using blank project with all fields *****
+12/03/2024 07:08:54 PM: INFO: Entered username: aliantest385+9500@gmail.com.
+12/03/2024 07:08:54 PM: INFO: Entered password.
+12/03/2024 07:08:54 PM: INFO: Clicked on Login button.
+12/03/2024 07:09:01 PM: INFO: Home page title verified.
+12/03/2024 07:09:01 PM: INFO: Logged in successfully.
+12/03/2024 07:09:30 PM: INFO: Step-1: Project Type - Blank Project or Use a Template
+12/03/2024 07:09:30 PM: INFO: Step-2: Project Detail
+12/03/2024 07:09:30 PM: INFO: Generated project name: Project Test Ec86d34e, project key: PROJ-C385255F
+12/03/2024 07:09:33 PM: INFO: Step-3: Project Avatar or Project Color
+12/03/2024 07:09:36 PM: INFO: Step-4: Project Type - Public Project or Private Project
+12/03/2024 07:09:36 PM: INFO: Step-5: Task Type - Add the type of tasks you need
+12/03/2024 07:09:38 PM: INFO: Step-6: Project Status - Add the statuses for the project
+12/03/2024 07:09:39 PM: INFO: Step-7: Task Status - Set up the statuses for tasks
+12/03/2024 07:09:41 PM: INFO: Step-8: Enable Apps - Priority, Multiple Assignees, Time Estimate, Milestones, Tags, Custom Fields, Time Tracking, and AI
+12/03/2024 07:09:41 PM: INFO: Step-9: Custom Field
+12/03/2024 07:09:41 PM: INFO: Step-10: Enable Views - List, Board, Project Details, Comments, Calendar, Activity, Workload, and Table
+12/03/2024 07:13:13 PM: INFO: Step-10: Project Summary - Details of the Project setup
+12/03/2024 07:13:18 PM: INFO: Toast message: Project data has been added successfully
+12/03/2024 07:17:14 PM: INFO: ***** Testing Create Project using blank project with all fields *****
+12/03/2024 07:17:29 PM: INFO: Entered username: aliantest385+9500@gmail.com.
+12/03/2024 07:17:29 PM: INFO: Entered password.
+12/03/2024 07:17:29 PM: INFO: Clicked on Login button.
+12/03/2024 07:17:31 PM: INFO: Home page title verified.
+12/03/2024 07:17:31 PM: INFO: Logged in successfully.
+12/03/2024 07:17:56 PM: INFO: Step-1: Project Type - Blank Project or Use a Template
+12/03/2024 07:17:56 PM: INFO: Step-2: Project Detail
+12/03/2024 07:17:56 PM: INFO: Generated project name: Project Test 2a7c5994, project key: PROJ-BD657780
+12/03/2024 07:17:59 PM: INFO: Step-3: Project Avatar or Project Color
+12/03/2024 07:18:02 PM: INFO: Step-4: Project Type - Public Project or Private Project
+12/03/2024 07:18:02 PM: INFO: Step-5: Task Type - Add the type of tasks you need
+12/03/2024 07:18:04 PM: INFO: Step-6: Project Status - Add the statuses for the project
+12/03/2024 07:18:05 PM: INFO: Step-7: Task Status - Set up the statuses for tasks
+12/03/2024 07:18:07 PM: INFO: Step-8: Enable Apps - Priority, Multiple Assignees, Time Estimate, Milestones, Tags, Custom Fields, Time Tracking, and AI
+12/03/2024 07:18:07 PM: INFO: Step-9: Custom Field
+12/03/2024 07:18:07 PM: INFO: Step-10: Enable Views - List, Board, Project Details, Comments, Calendar, Activity, Workload, and Table
+12/03/2024 07:18:39 PM: INFO: Step-10: Project Summary - Details of the Project setup
+12/03/2024 07:18:43 PM: INFO: Toast message: Project data has been added successfully
+12/03/2024 07:21:07 PM: INFO: ***** Testing Create Project using blank project with all fields *****
+12/03/2024 07:21:13 PM: INFO: Entered username: aliantest385+9500@gmail.com.
+12/03/2024 07:21:13 PM: INFO: Entered password.
+12/03/2024 07:21:13 PM: INFO: Clicked on Login button.
+12/03/2024 07:21:15 PM: INFO: Home page title verified.
+12/03/2024 07:21:15 PM: INFO: Logged in successfully.
+12/03/2024 07:21:20 PM: INFO: Step-1: Project Type - Blank Project or Use a Template
+12/03/2024 07:21:21 PM: INFO: Step-2: Project Detail
+12/03/2024 07:21:21 PM: INFO: Generated project name: Project Test 65bb8cd1, project key: PROJ-EE8D2614
+12/03/2024 07:21:24 PM: INFO: Step-3: Project Avatar or Project Color
+12/03/2024 07:21:26 PM: INFO: Step-4: Project Type - Public Project or Private Project
+12/03/2024 07:21:26 PM: INFO: Step-5: Task Type - Add the type of tasks you need
+12/03/2024 07:21:28 PM: INFO: Step-6: Project Status - Add the statuses for the project
+12/03/2024 07:21:30 PM: INFO: Step-7: Task Status - Set up the statuses for tasks
+12/03/2024 07:21:32 PM: INFO: Step-8: Enable Apps - Priority, Multiple Assignees, Time Estimate, Milestones, Tags, Custom Fields, Time Tracking, and AI
+12/03/2024 07:21:32 PM: INFO: Step-9: Custom Field
+12/03/2024 07:21:32 PM: INFO: Step-10: Enable Views - List, Board, Project Details, Comments, Calendar, Activity, Workload, and Table
+12/03/2024 07:21:48 PM: ERROR: An error occurred: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+	GetHandleVerifier [0x00007FF64D876CB5+28821]
+	(No symbol) [0x00007FF64D7E3840]
+	(No symbol) [0x00007FF64D68578A]
+	(No symbol) [0x00007FF64D65F4F5]
+	(No symbol) [0x00007FF64D706247]
+	(No symbol) [0x00007FF64D71ECE2]
+	(No symbol) [0x00007FF64D6FF0A3]
+	(No symbol) [0x00007FF64D6CA778]
+	(No symbol) [0x00007FF64D6CB8E1]
+	GetHandleVerifier [0x00007FF64DBAFCAD+3408013]
+	GetHandleVerifier [0x00007FF64DBC741F+3504127]
+	GetHandleVerifier [0x00007FF64DBBB5FD+3455453]
+	GetHandleVerifier [0x00007FF64D93BDBB+835995]
+	(No symbol) [0x00007FF64D7EEB5F]
+	(No symbol) [0x00007FF64D7EA814]
+	(No symbol) [0x00007FF64D7EA9AD]
+	(No symbol) [0x00007FF64D7DA199]
+	BaseThreadInitThunk [0x00007FFA27887374+20]
+	RtlUserThreadStart [0x00007FFA2989CC91+33]
+

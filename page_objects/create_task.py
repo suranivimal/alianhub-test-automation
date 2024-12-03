@@ -1,9 +1,13 @@
 from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from utils.common_utils import *
+from utils.read_properties import ReadConfig
 
 
 class CreateTask:
+
+    timeout = ReadConfig.get_global_timeout()
+
     """
     Page Object Model for the Create Task page in the application.
     Contains locators and methods to interact with the Create Task page.
@@ -30,7 +34,7 @@ class CreateTask:
         """
         locator = (By.ID, self.btn_task_id)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'New Task' button: {e}")
@@ -70,7 +74,7 @@ class CreateTask:
         toast_locator = (By.XPATH, self.toast_message_task)
         try:
             webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=toast_locator,
-                                                             timeout=60)
+                                                             timeout=self.timeout)
             toast_element = self.driver.find_element(*toast_locator)
             return toast_element.text
         except (NoSuchElementException, TimeoutException) as e:
@@ -86,7 +90,7 @@ class CreateTask:
         """
         locator = (By.XPATH, f"//span[@class='text-ellipsis d-inline-block edit__taskname' and @title='{task_name}']")
         try:
-            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=locator, timeout=60)
+            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=locator, timeout=self.timeout)
             task_name_element = self.driver.find_element(*locator)
             return task_name_element.text
         except (NoSuchElementException, TimeoutException) as e:

@@ -61,7 +61,7 @@ class TestCreateProject:
 
             create_project.set_project_name(self.projectname)
             create_project.set_project_key(self.projectkey)
-            create_project.click_on_category()
+            create_project.click_on_category_dropdown()
             create_project.select_category()
             create_project.click_on_next_button()
 
@@ -145,7 +145,7 @@ class TestCreateProject:
             create_project.set_project_name(self.projectname)
             create_project.set_project_key(self.projectkey)
 
-            create_project.click_on_category()
+            create_project.click_on_category_dropdown()
             create_project.select_category()
 
             time.sleep(25)
@@ -206,7 +206,7 @@ class TestCreateProject:
 
             create_project.set_project_name(self.projectname)
             create_project.set_project_key(self.projectkey)
-            create_project.click_on_category()
+            create_project.click_on_category_dropdown()
             create_project.select_category()
             create_project.calendar_component()
             create_project.click_on_lead_dropdown()
@@ -239,18 +239,25 @@ class TestCreateProject:
             create_project.click_on_enable_apps()
             create_project.click_on_next_button()
 
-            self.logger.info(
-                "Step-9: Custom Field")
+            self.logger.info("Step-9: Custom Field")
             create_project.click_on_next_button()
 
             self.logger.info(
                 "Step-10: Enable Views - List, Board, Project Details, Comments, Calendar, Activity, Workload, and Table")
-            # create_project.click_on_view_radio_button()
+            create_project.click_on_board_view()
+            create_project.click_on_project_details_view()
+            create_project.click_on_comments_view()
+            create_project.click_on_calendar_view()
+            create_project.click_on_activity_view()
+            create_project.click_on_workload_view()
+            create_project.click_on_table_view()
+
+            time.sleep(30)
+
             create_project.click_on_next_button()
 
             self.logger.info("Step-10: Project Summary - Details of the Project setup")
             create_project.click_on_create_project()
-            time.sleep(20)
             toast_message = create_project.verify_project_toast_message()
             self.logger.info(f"Toast message: {toast_message}")
             capture_screenshot(self.driver, "project_created_successfully")

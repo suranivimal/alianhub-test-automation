@@ -52,3 +52,7 @@ class ReadConfig:
     @staticmethod
     def get_new_user_password():
         return ReadConfig.get_value('userpassword')
+
+    @staticmethod
+    def get_global_timeout():
+        return ReadConfig.get_value('GLOBAL_TIMEOUT')

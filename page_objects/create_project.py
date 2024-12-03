@@ -6,12 +6,15 @@ from selenium.webdriver.common.by import By
 from utils.common_utils import *
 import pyautogui
 
+from utils.read_properties import ReadConfig
+
 
 class CreateProject:
     """
     Page Object Model for the Create Project page in the application.
     Contains locators and methods to interact with the Create Project page.
     """
+    timeout = ReadConfig.get_global_timeout()
 
     # Locators
 
@@ -39,19 +42,19 @@ class CreateProject:
     project_type_private = "//p[text()='Private']"
 
     # Step 5
-    task_type_plus_icon = "//button[normalize-space()='+ New Template']"
-    task_type_template_name = "//input[@placeholder='Enter Template']"
+    task_type_new_template_btn = "(//button[normalize-space()='+ New Template'])[1]"
+    task_type_template_name = "(//input[@placeholder='Enter Template'])[1]"
     task_type_template_save_icon = "//span[@class='position-ab edit-rightinput save__closeimg-wrapper']//img[@class='cursor-pointer']"
-    task_type_template_add_btn = "//button[@id='createprojecttasktypenew_driver']"
+    task_type_template_add_task_type_btn = "(//button[normalize-space()='+ Add Task Type'])[1]"
     task_type_template_bug = "(//span[@class='d-block emp_label font-weight-400 pl-10px'][normalize-space()='Bug'])[1]"
     task_type_template_subtask = "(//span[normalize-space()='Sub Task'])[1]"
     task_type_template_close_icon = "//div[@class='cursor-pointer d-flex align-items-center text-nowrap']//img"
     template_save_btn = "(// button[normalize-space() = 'Save Template'])[1]"
-    template_save_btns = "(// button[normalize-space() = 'Save Templates'])[1]"
+    templates_save_btn = "(// button[normalize-space() = 'Save Templates'])[1]"
 
     # Step 6
 
-    project_status_template_add_btn = "//button[normalize-space()='+ Add Status']"
+    project_status_template_add_status_btn = "(//button[normalize-space()='+ Add Status'])[1]"
     project_status_template_done = "(//span[@class='d-block emp_label font-weight-400 pl-10px'][normalize-space()='Done'])[1]"
     project_status_template_on_hold = "//span[@class='d-block emp_label font-weight-400 pl-10px'][normalize-space()='On Hold']"
     project_status_template_completed = "(//span[normalize-space()='Completed'])[1]"
@@ -65,12 +68,29 @@ class CreateProject:
     task_status_template_done = "(//span[contains(@class,'d-block emp_label font-weight-400 pl-10px')][normalize-space()='Done'])[1]"
 
     # Step 8
-    btn_enable_apps = ".toggle.bg-lowlight-gray.mr-10px"
+    btn_enable_apps = "(//div[@class='toggle bg-lowlight-gray mr-10px'])[1]"
+
+    # Step 10
+
+    # btn_board_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    # btn_project_details_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[2]"
+    # btn_comments_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[3]"
+    # btn_calendar_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[4]"
+    # btn_activity_view = "(//div[@class='toggle-button bg-white'])[5]"
+    # btn_workload_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[6]"
+    # btn_table_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[7]"
+
+    btn_board_view = "(//div)[575]"
+    btn_project_details_view = "(//div)[582]"
+    btn_comments_view = "(//div)[589]"
+    btn_calendar_view = "(//div)[596]"
+    btn_activity_view = "(//div)[603]"
+    btn_workload_view = "(//div)[610]"
+    btn_table_view = "(//div)[617]"
 
     btn_next = "//button[normalize-space()='Next']"
     toggle_view_project_details = "//div[@id='my-sidebar']//div[3]//div[2]//div[2]"
     btn_create_project = "(//button[normalize-space()='Create Project'])[1]"
-    project_list_title = "//div/span[@class='project-list-title']"
     project_list_fav = "//img[@id='projestleftlistfilter_driver']"
     project_name = "//span[@class='text-ellipsis project-sb-ptitle font-size-13 font-weight-500 mw-80']"
     option_template = "//div[@class='template_project_img']//img[@class='cursor-pointer']"
@@ -85,25 +105,15 @@ class CreateProject:
         """
         self.driver = driver
 
-    def wait_for_project_list_title(self):
-        """
-        Waits for the 'Projects' title to be visible on the project list sidebar.
-        """
-        locator = (By.XPATH, self.project_list_title)
-        try:
-            webdriver_wait_for_text_in_element_value(driver=self.driver, locator=locator, text="Projects", timeout=60)
-        except TimeoutException as e:
-            print(f"Timeout waiting for 'Projects' title: {e}")
-
     def wait_for_project_list_fav(self):
         """
-        Waits for the 'fav.' icon to be visible on the project list sidebar.
+        Waits for the 'favorite' icon to be visible on the project list sidebar.
         """
         locator = (By.XPATH, self.project_list_fav)
         try:
-            webdriver_for_presence_of_element_located(driver=self.driver, locator=locator, timeout=60)
+            webdriver_for_presence_of_element_located(driver=self.driver, locator=locator, timeout=self.timeout)
         except TimeoutException as e:
-            print(f"Timeout waiting for 'Projects' title: {e}")
+            print(f"Timeout waiting for 'Fav' icon on project list sidebar: {e}")
 
     def click_on_new_project_button(self):
         """
@@ -120,7 +130,7 @@ class CreateProject:
         """
         locator = (By.XPATH, self.btn_blank_project)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Blank Project' button: {e}")
@@ -131,7 +141,7 @@ class CreateProject:
         """
         locator = (By.XPATH, self.btn_use_a_template)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Use a Template' button: {e}")
@@ -157,20 +167,20 @@ class CreateProject:
         """
         locator = (By.XPATH, self.txt_project_key)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             element = self.driver.find_element(*locator)
             element.clear()
             element.send_keys(project_key)
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error setting project key: {e}")
 
-    def click_on_category(self):
+    def click_on_category_dropdown(self):
         """
         Clicks on the category dropdown to select a category for the project.
         """
         locator = (By.XPATH, self.sidebar_category_list)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on category dropdown: {e}")
@@ -179,20 +189,21 @@ class CreateProject:
         """
         Selects a category from the category dropdown.
         """
-        locator = (By.XPATH, self.sidebar_category_list_title )
+        locator = (By.XPATH, self.sidebar_category_list_title)
         try:
-            webdriver_wait_for_text_in_element(driver=self.driver, locator=locator, text="Category List", timeout=60)
+            webdriver_wait_for_text_in_element(driver=self.driver, locator=locator, text="Category List",
+                                               timeout=self.timeout)
             self.driver.find_element(By.XPATH, self.sidebar_category_list_option_hourly_price).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting category: {e}")
 
     def click_on_lead_dropdown(self):
         """
-        Clicks on the 'Next' button to proceed to the next step in the project creation process.
+        Clicks on the 'lead assignee' to select an assignee for the project.
         """
         locator = (By.XPATH, self.btn_lead_assignee)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'lead assignee' button: {e}")
@@ -201,7 +212,7 @@ class CreateProject:
 
         locator = (By.XPATH, self.sidebar_list_user_one)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting assignee: {e}")
@@ -209,7 +220,7 @@ class CreateProject:
     def close_assignee_sidebar(self):
         locator = (By.XPATH, self.sidebar_list_user_close_btn)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on  close button of assignee sidebar: {e}")
@@ -231,7 +242,7 @@ class CreateProject:
 
         locator = (By.XPATH, self.project_type_private)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'project type': {e}")
@@ -242,47 +253,48 @@ class CreateProject:
 
     def select_task_type_template(self):
 
-        plus_locator = (By.XPATH, self.task_type_plus_icon)
+        new_template_locator = (By.XPATH, self.task_type_new_template_btn)
         template_name_locator = (By.XPATH, self.task_type_template_name)
         template_save_locator = (By.XPATH, self.task_type_template_save_icon)
-        template_add_locator = (By.XPATH, self.task_type_template_add_btn)
+        template_add_task_type_locator = (By.XPATH, self.task_type_template_add_task_type_btn)
         template_bug_locator = (By.XPATH, self.task_type_template_bug)
         template_subtask_locator = (By.XPATH, self.task_type_template_subtask)
         template_close_locator = (By.XPATH, self.task_type_template_close_icon)
-        template_save_btn_locator = (By.XPATH, self.template_save_btn)
+        # template_save_btn_locator = (By.XPATH, self.template_save_btn)
 
         self.template_name = self.generate_task_template_name()
 
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=plus_locator, timeout=60)
-            self.driver.find_element(*plus_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*new_template_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_name_locator).send_keys(self.template_name)
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_save_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_locator, timeout=60)
-            self.driver.find_element(*template_add_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_task_type_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*template_add_task_type_locator).click()
 
-            # time.sleep(20)
-
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_bug_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_bug_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_bug_locator).click()
 
-            # time.sleep(20)
-
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_subtask_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_subtask_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_subtask_locator).click()
 
             # webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btn_locator,
-            #                                            timeout=60)
+            #                                            timeout=self.timeout)
             # self.driver.find_element(*template_save_btn_locator).click()
 
-            # time.sleep(20)
-
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_close_locator).click()
 
             # time.sleep(20)
@@ -292,61 +304,67 @@ class CreateProject:
 
     def select_project_status_template(self):
 
-        plus_locator = (By.XPATH, self.task_type_plus_icon)
+        new_template_locator = (By.XPATH, self.task_type_new_template_btn)
         template_name_locator = (By.XPATH, self.task_type_template_name)
         template_save_locator = (By.XPATH, self.task_type_template_save_icon)
-        template_add_locator = (By.XPATH, self.project_status_template_add_btn)
+        template_add_status_locator = (By.XPATH, self.project_status_template_add_status_btn)
 
         template_done_locator = (By.XPATH, self.project_status_template_done)
         template_on_hold_locator = (By.XPATH, self.project_status_template_on_hold)
         template_completed_locator = (By.XPATH, self.project_status_template_completed)
 
-        template_close_locator = (By.XPATH, self.task_type_template_close_icon)
-        template_save_btns_locator = (By.XPATH, self.template_save_btns)
+        template_close_btn_locator = (By.XPATH, self.task_type_template_close_icon)
+        templates_save_btn_locator = (By.XPATH, self.templates_save_btn)
 
         self.template_name = self.generate_task_template_name()
 
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=plus_locator, timeout=60)
-            self.driver.find_element(*plus_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*new_template_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_name_locator).send_keys(self.template_name)
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_save_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_locator, timeout=60)
-            self.driver.find_element(*template_add_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_status_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*template_add_status_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_done_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_done_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_done_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_on_hold_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_on_hold_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_on_hold_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_completed_locator,
-                                                       timeout=60)
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_completed_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btns_locator,
-                                                       timeout=60)
-            self.driver.find_element(*template_save_btns_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_btn_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*template_close_btn_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator, timeout=60)
-            self.driver.find_element(*template_close_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=templates_save_btn_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*templates_save_btn_locator).click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting on 'task type template': {e}")
 
     def select_task_status_template(self):
 
-        plus_locator = (By.XPATH, self.task_type_plus_icon)
+        new_template_locator = (By.XPATH, self.task_type_new_template_btn)
         template_name_locator = (By.XPATH, self.task_type_template_name)
         template_save_locator = (By.XPATH, self.task_type_template_save_icon)
-        template_add_locator = (By.XPATH, self.project_status_template_add_btn)
+        template_add_status_locator = (By.XPATH, self.project_status_template_add_status_btn)
 
-        task_status_template_complete_locator = (By.XPATH, self.task_status_template_complete)
         task_status_template_in_progress_locator = (By.XPATH, self.task_status_template_in_progress)
         task_status_template_in_review_locator = (By.XPATH, self.task_status_template_in_review)
         task_status_template_backlog_locator = (By.XPATH, self.task_status_template_backlog)
@@ -358,52 +376,55 @@ class CreateProject:
         self.template_name = self.generate_task_template_name()
 
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=plus_locator, timeout=60)
-            self.driver.find_element(*plus_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*new_template_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_name_locator).send_keys(self.template_name)
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_save_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_locator, timeout=60)
-            self.driver.find_element(*template_add_locator).click()
-            #
-            # webdriver_wait_for_element_to_be_clickable(driver=self.driver,
-            #                                            locator=task_status_template_complete_locator, timeout=60)
-            # self.driver.find_element(*task_status_template_complete_locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_status_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*template_add_status_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver,
-                                                       locator=task_status_template_in_progress_locator, timeout=60)
+                                                       locator=task_status_template_in_progress_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*task_status_template_in_progress_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver,
-                                                       locator=task_status_template_in_review_locator, timeout=60)
+                                                       locator=task_status_template_in_review_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*task_status_template_in_review_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_template_backlog_locator,
-                                                       timeout=60)
+                                                       timeout=self.timeout)
             self.driver.find_element(*task_status_template_backlog_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_template_done_locator,
-                                                       timeout=60)
+                                                       timeout=self.timeout)
             self.driver.find_element(*task_status_template_done_locator).click()
 
-            # webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btn_locator,
-            #                                            timeout=60)
-            # self.driver.find_element(*template_save_btn_locator).click()
-
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator,
+                                                       timeout=self.timeout)
             self.driver.find_element(*template_close_locator).click()
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btn_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*template_save_btn_locator).click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting on 'task status template': {e}")
 
     def click_on_enable_apps(self):
-        locator = (By.CSS_SELECTOR, self.btn_enable_apps)
+        locator = (By.XPATH, self.btn_enable_apps)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except(NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'enable apps' button:{e}")
@@ -414,28 +435,163 @@ class CreateProject:
         """
         locator = (By.XPATH, self.btn_next)
         try:
-            webdriver_wait_for_text_in_element(driver=self.driver, locator=locator, text="Next", timeout=60)
+            webdriver_wait_for_text_in_element(driver=self.driver, locator=locator, text="Next", timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Next' button: {e}")
 
-    def click_on_view_radio_button(self):
+    def click_on_board_view(self):
         """
-        Clicks on the 'View' radio button in the project details section.
+        Clicks on the 'Board View' radio button in the project details section.
         """
-        locator = (By.XPATH, self.toggle_view_project_details)
+        btn_board_view_locator = (By.XPATH, self.btn_board_view)
+
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
-            self.driver.find_element(*locator).click()
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_board_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_board_view_locator).click()
+
         except (NoSuchElementException, TimeoutException) as e:
-            print(f"Error clicking on 'View' radio button: {e}")
+            print(f"Error clicking on 'Board View' radio button: {e}")
+
+    def click_on_project_details_view(self):
+        """
+        Clicks on the 'Project Details View' radio button in the project details section.
+        """
+        btn_project_details_view_locator = (By.XPATH, self.btn_project_details_view)
+
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_project_details_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_project_details_view_locator).click()
+
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error clicking on 'Project Details View' radio button: {e}")
+
+    def click_on_comments_view(self):
+        """
+        Clicks on the 'Comments View' radio button in the project details section.
+        """
+
+        btn_comments_view_locator = (By.XPATH, self.btn_comments_view)
+
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_comments_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_comments_view_locator).click()
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error clicking on 'Comments View' radio button: {e}")
+
+    def click_on_calendar_view(self):
+        """
+        Clicks on the 'Calendar View' radio button in the project details section.
+        """
+
+        btn_calendar_view_locator = (By.XPATH, self.btn_calendar_view)
+
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_calendar_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_calendar_view_locator).click()
+
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error clicking on 'Calendar View' radio button: {e}")
+
+    def click_on_activity_view(self):
+        """
+        Clicks on the 'Activity View' radio button in the project details section.
+        """
+        btn_activity_view_locator = (By.XPATH, self.btn_activity_view)
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_activity_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_activity_view_locator).click()
+
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error clicking on 'Activity View' radio button: {e}")
+
+    def click_on_workload_view(self):
+        """
+        Clicks on the 'Workload iew' radio button in the project details section.
+        """
+        btn_workload_view_locator = (By.XPATH, self.btn_workload_view)
+        btn_table_view_locator = (By.XPATH, self.btn_table_view)
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_workload_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_workload_view_locator).click()
+
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error clicking on 'Workload View' radio button: {e}")
+
+    def click_on_table_view(self):
+        """
+        Clicks on the 'Table View' radio button in the project details section.
+        """
+        btn_table_view_locator = (By.XPATH, self.btn_table_view)
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_table_view_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_table_view_locator).click()
+
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error clicking on 'Table View' radio button: {e}")
+
+    # def click_on_view(self):
+    #     """
+    #     Clicks on the 'View' radio button in the project details section.
+    #     """
+    #     btn_board_view_locator = (By.XPATH, self.btn_board_view)
+    #     btn_project_details_view_locator = (By.XPATH, self.btn_project_details_view)
+    #     btn_comments_view_locator = (By.XPATH, self.btn_comments_view)
+    #     btn_calendar_view_locator = (By.XPATH, self.btn_calendar_view)
+    #     btn_activity_view_locator = (By.XPATH, self.btn_activity_view)
+    #     btn_workload_view_locator = (By.XPATH, self.btn_workload_view)
+    #     btn_table_view_locator = (By.XPATH, self.btn_table_view)
+    #     try:
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_board_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_board_view_locator).click()
+    #
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_project_details_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_project_details_view_locator).click()
+    #
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_comments_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_comments_view_locator).click()
+    #
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_calendar_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_calendar_view_locator).click()
+    #
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_activity_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_activity_view_locator).click()
+    #
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_workload_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_workload_view_locator).click()
+    #
+    #         webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_table_view_locator,
+    #                                                    timeout=self.timeout)
+    #         self.driver.find_element(*btn_table_view_locator).click()
+    #
+    #     except (NoSuchElementException, TimeoutException) as e:
+    #         print(f"Error clicking on 'View' radio button: {e}")
 
     def select_templates(self):
         """
         Selects a template from the available templates.
         """
         locator = (By.XPATH, self.option_template)
-        webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+        webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
         self.driver.find_element(*locator).click()
 
     def click_on_use_template_button(self):
@@ -444,7 +600,7 @@ class CreateProject:
         """
         locator = (By.XPATH, self.btn_use_template)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Use Template' button: {e}")
@@ -455,7 +611,8 @@ class CreateProject:
         """
         locator = (By.XPATH, self.btn_create_project)
         try:
-            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=locator, timeout=90)
+            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=locator,
+                                                             timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Create Project' button: {e}")
@@ -485,7 +642,7 @@ class CreateProject:
         project_name_locator = (By.XPATH, self.project_name)
         try:
             webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=project_name_locator,
-                                                             timeout=60)
+                                                             timeout=self.timeout)
             project_name_element = self.driver.find_element(*project_name_locator)
             return project_name_element.text
         except (NoSuchElementException, TimeoutException) as e:
@@ -500,7 +657,7 @@ class CreateProject:
         """
         locator = (By.XPATH, self.project_name)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             project_element = self.driver.find_element(*locator)
             project_element.click()
             return project_element
@@ -511,7 +668,7 @@ class CreateProject:
     def click_on_due_date(self):
         locator = (By.XPATH, self.date_picker_due_date)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Use Template' button: {e}")
@@ -519,11 +676,12 @@ class CreateProject:
     def calendar_component(self):
 
         locator = (By.XPATH, self.date_picker_due_date)
-        webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+        webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
         self.driver.find_element(*locator).click()
 
         cel_locator = (By.CLASS_NAME, "dp__instance_calendar")
-        webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=cel_locator, timeout=60)
+        webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=cel_locator,
+                                                         timeout=self.timeout)
 
         # Interact with the calendar
 

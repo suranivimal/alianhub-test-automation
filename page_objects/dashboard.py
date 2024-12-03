@@ -2,9 +2,12 @@ from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 
 from utils.common_utils import *
+from utils.read_properties import ReadConfig
 
 
 class Dashboard:
+    timeout = ReadConfig.get_global_timeout()
+
     """
     This class represents the dashboard of the application.
 
@@ -30,7 +33,7 @@ class Dashboard:
         """
         locator = (By.XPATH, self.nav_projects)
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=60)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Projects' tab: {e}")
