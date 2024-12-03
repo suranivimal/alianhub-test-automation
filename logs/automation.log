@@ -1,0 +1,15 @@
+12/03/2024 12:03:50 PM: INFO: Testing Login with Valid Credentials
+12/03/2024 12:03:56 PM: INFO: Entered username: aliantest385+9500@gmail.com.
+12/03/2024 12:03:56 PM: INFO: Entered password.
+12/03/2024 12:03:56 PM: INFO: Clicked on Login button.
+12/03/2024 12:04:05 PM: INFO: Home page title verified.
+12/03/2024 12:04:05 PM: INFO: Logged in successfully.
+12/03/2024 12:04:05 PM: INFO: Login with valid credentials passed.
+12/03/2024 12:04:09 PM: INFO: Testing Login with Invalid Credentials
+12/03/2024 12:04:15 PM: INFO: Entered username: aliantesting8555@gmail.com.
+12/03/2024 12:04:15 PM: INFO: Entered password.
+12/03/2024 12:04:15 PM: INFO: Clicked on Login button.
+12/03/2024 12:04:16 PM: INFO: Retrieved warning message: Invalid username or password.
+12/03/2024 12:04:16 PM: INFO: Login with invalid credentials passed.
+12/03/2024 12:04:20 PM: INFO: Testing Homepage Title
+12/03/2024 12:04:26 PM: INFO: Homepage title verification passed.
