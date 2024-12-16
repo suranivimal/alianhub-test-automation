@@ -1,8 +1,11 @@
 import time
 import uuid
 
-from selenium.common import NoSuchElementException, TimeoutException
+from selenium.common import NoSuchElementException, TimeoutException, StaleElementReferenceException
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.relative_locator import locate_with
+
 from utils.common_utils import *
 import pyautogui
 
@@ -72,21 +75,34 @@ class CreateProject:
 
     # Step 10
 
-    # btn_board_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
-    # btn_project_details_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[2]"
-    # btn_comments_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[3]"
-    # btn_calendar_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[4]"
-    # btn_activity_view = "(//div[@class='toggle-button bg-white'])[5]"
-    # btn_workload_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[6]"
-    # btn_table_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[7]"
+    btn_board_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    board_view_label = "(//span[normalize-space()='Board'])[1]"
 
-    btn_board_view = "(//div)[575]"
-    btn_project_details_view = "(//div)[582]"
-    btn_comments_view = "(//div)[589]"
-    btn_calendar_view = "(//div)[596]"
-    btn_activity_view = "(//div)[603]"
-    btn_workload_view = "(//div)[610]"
-    btn_table_view = "(//div)[617]"
+    btn_project_details_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    project_details_label = "(//span[@class='changesFont margin-left-value ml-5px enableapp-list-desktop'][normalize-space()='Project Details'])[1]"
+
+    btn_comments_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    comments_view_label = "(//span[normalize-space()='Comments'])[1]"
+
+    btn_calendar_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    calendar_view_label = "(//span[normalize-space()='Calendar'])[1]"
+
+    btn_activity_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    activity_view_label = "(//span[normalize-space()='Activity'])[1]"
+
+    btn_workload_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    workload_view_label = "(//span[normalize-space()='Workload'])[1]"
+
+    btn_table_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
+    table_view_label = "(//span[normalize-space()='Table'])[1]"
+
+    # btn_board_view = "(//div)[575]"
+    # btn_project_details_view = "(//div)[582]"
+    # btn_comments_view = "(//div)[589]"
+    # btn_calendar_view = "(//div)[596]"
+    # btn_activity_view = "(//div)[603]"
+    # btn_workload_view = "(//div)[610]"
+    # btn_table_view = "(//div)[617]"
 
     btn_next = "//button[normalize-space()='Next']"
     toggle_view_project_details = "//div[@id='my-sidebar']//div[3]//div[2]//div[2]"
@@ -444,13 +460,18 @@ class CreateProject:
         """
         Clicks on the 'Board View' radio button in the project details section.
         """
-        btn_board_view_locator = (By.XPATH, self.btn_board_view)
-
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_board_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_board_view_locator).click()
+            board_view_label_locator = (By.XPATH, self.board_view_label)
+            btn_board_view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_board_view).to_right_of(
+                        driver.find_element(*board_view_label_locator)
+                    )
+                )
+            )
 
+            # Click the located radio button
+            btn_board_view_element.click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Board View' radio button: {e}")
 
@@ -458,13 +479,17 @@ class CreateProject:
         """
         Clicks on the 'Project Details View' radio button in the project details section.
         """
-        btn_project_details_view_locator = (By.XPATH, self.btn_project_details_view)
-
         try:
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_project_details_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_project_details_view_locator).click()
+            project_details_label_locator = (By.XPATH, self.project_details_label)
+            btn_project_details_view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_project_details_view).to_right_of(
+                        driver.find_element(*project_details_label_locator)
+                    )
+                )
+            )
+            btn_project_details_view_element.click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Project Details View' radio button: {e}")
@@ -473,14 +498,17 @@ class CreateProject:
         """
         Clicks on the 'Comments View' radio button in the project details section.
         """
-
-        btn_comments_view_locator = (By.XPATH, self.btn_comments_view)
-
         try:
+            comments_view_label_locator = (By.XPATH, self.comments_view_label)
+            btn_comments_view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_comments_view).to_right_of(
+                        driver.find_element(*comments_view_label_locator)
+                    )
+                )
+            )
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_comments_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_comments_view_locator).click()
+            btn_comments_view_element.click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Comments View' radio button: {e}")
 
@@ -489,13 +517,16 @@ class CreateProject:
         Clicks on the 'Calendar View' radio button in the project details section.
         """
 
-        btn_calendar_view_locator = (By.XPATH, self.btn_calendar_view)
-
         try:
-
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_calendar_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_calendar_view_locator).click()
+            calendar_view_label_locator = (By.XPATH, self.calendar_view_label)
+            btn_calendar_view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_calendar_view).to_right_of(
+                        driver.find_element(*calendar_view_label_locator)
+                    )
+                )
+            )
+            btn_calendar_view_element.click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Calendar View' radio button: {e}")
@@ -504,12 +535,18 @@ class CreateProject:
         """
         Clicks on the 'Activity View' radio button in the project details section.
         """
-        btn_activity_view_locator = (By.XPATH, self.btn_activity_view)
         try:
+            activity_view_label_locator = (By.XPATH, self.activity_view_label)
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_activity_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_activity_view_locator).click()
+            btn_activity_view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_activity_view).to_right_of(
+                        driver.find_element(*activity_view_label_locator)
+                    )
+                )
+            )
+
+            btn_activity_view_element.click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Activity View' radio button: {e}")
@@ -518,13 +555,19 @@ class CreateProject:
         """
         Clicks on the 'Workload iew' radio button in the project details section.
         """
-        btn_workload_view_locator = (By.XPATH, self.btn_workload_view)
-        btn_table_view_locator = (By.XPATH, self.btn_table_view)
+
         try:
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_workload_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_workload_view_locator).click()
+            workload_view_label_locator = (By.XPATH, self.workload_view_label)
+            btn_workload_view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_workload_view).to_right_of(
+                        driver.find_element(*workload_view_label_locator)
+                    )
+                )
+            )
+
+            btn_workload_view_element.click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Workload View' radio button: {e}")
@@ -533,12 +576,17 @@ class CreateProject:
         """
         Clicks on the 'Table View' radio button in the project details section.
         """
-        btn_table_view_locator = (By.XPATH, self.btn_table_view)
-        try:
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_table_view_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*btn_table_view_locator).click()
+        try:
+            table_view_label_locator = (By.XPATH, self.table_view_label)
+            btn_table__view_element = WebDriverWait(self.driver, 60).until(
+                lambda driver: driver.find_element(
+                    locate_with(By.XPATH, self.btn_table_view).to_right_of(
+                        driver.find_element(*table_view_label_locator)
+                    )
+                )
+            )
+            btn_table__view_element.click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'Table View' radio button: {e}")

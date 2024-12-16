@@ -233,6 +233,7 @@ class TestCreateProject:
             self.logger.info("Step-7: Task Status - Set up the statuses for tasks")
             create_project.select_task_status_template()
             create_project.click_on_next_button()
+            time.sleep(20)
 
             self.logger.info(
                 "Step-8: Enable Apps - Priority, Multiple Assignees, Time Estimate, Milestones, Tags, Custom Fields, Time Tracking, and AI")
@@ -253,7 +254,6 @@ class TestCreateProject:
             create_project.click_on_table_view()
 
             time.sleep(30)
-
             create_project.click_on_next_button()
 
             self.logger.info("Step-10: Project Summary - Details of the Project setup")
