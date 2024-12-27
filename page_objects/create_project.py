@@ -5,6 +5,7 @@ from selenium.common import NoSuchElementException, TimeoutException, StaleEleme
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.relative_locator import locate_with
+from page_objects.login_page import LoginPage
 
 from utils.common_utils import *
 import pyautogui
@@ -49,31 +50,50 @@ class CreateProject:
     task_type_template_name = "(//input[@placeholder='Enter Template'])[1]"
     task_type_template_save_icon = "//span[@class='position-ab edit-rightinput save__closeimg-wrapper']//img[@class='cursor-pointer']"
     task_type_template_add_task_type_btn = "(//button[normalize-space()='+ Add Task Type'])[1]"
-    task_type_template_bug = "(//span[@class='d-block emp_label font-weight-400 pl-10px'][normalize-space()='Bug'])[1]"
+    task_type_template_bug = "(//span[normalize-space()='Bug'])[1]"
     task_type_template_subtask = "(//span[normalize-space()='Sub Task'])[1]"
     task_type_template_close_icon = "//div[@class='cursor-pointer d-flex align-items-center text-nowrap']//img"
-    template_save_btn = "(// button[normalize-space() = 'Save Template'])[1]"
-    templates_save_btn = "(// button[normalize-space() = 'Save Templates'])[1]"
+    template_save_btn = "(//button[normalize-space()='Save Template'])[1]"
+    templates_save_btn = "(//button[normalize-space()='Save Templates'])[1]"
 
     # Step 6
-
+    project_status_template_new_template_btn = "(//button[normalize-space()='+ New Template'])[1]"
+    project_status_template_name = "(//input[@placeholder='Enter Template'])[1]"
+    project_status_template_save_icon = "//span[@class='position-ab edit-rightinput save__closeimg-wrapper']//img[@class='cursor-pointer']"
     project_status_template_add_status_btn = "(//button[normalize-space()='+ Add Status'])[1]"
-    project_status_template_done = "(//span[@class='d-block emp_label font-weight-400 pl-10px'][normalize-space()='Done'])[1]"
-    project_status_template_on_hold = "//span[@class='d-block emp_label font-weight-400 pl-10px'][normalize-space()='On Hold']"
+    project_status_template_done = "(//div[@class='bg-white sidebar_item_main hover-bg-blue hover-white cursor-pointer d-flex align-items-center justify-content-between mobile-listuser'])[2]"
+    project_status_template_on_hold = "(//div[@class='bg-white sidebar_item_main hover-bg-blue hover-white cursor-pointer d-flex align-items-center justify-content-between mobile-listuser'])[1]"
     project_status_template_completed = "(//span[normalize-space()='Completed'])[1]"
+    project_status_template_close_icon = "//div[@class='cursor-pointer d-flex align-items-center text-nowrap']//img"
+    project_status_templates_save_btn = "(//button[normalize-space()='Save Templates'])[1]"
 
     # Step 7
+    task_status_template_new_template_btn = "(//button[normalize-space()='+ New Template'])[1]"
+    task_status_template_name = "(//input[@placeholder='Enter Template'])[1]"
+    task_status_template_save_icon = "//span[@class='position-ab edit-rightinput save__closeimg-wrapper']//img[@class='cursor-pointer']"
+    task_status_template_add_status_btn = "(//button[normalize-space()='+ Add Status'])[1]"
 
-    task_status_template_complete = "(//span[contains(@class,'d-block emp_label font-weight-400 pl-10px')][normalize-space()='Complete'])[1]"
-    task_status_template_in_progress = "(//span[contains(@class,'d-block emp_label font-weight-400 pl-10px')][normalize-space()='In Progress'])[1]"
-    task_status_template_in_review = "(//span[contains(@class,'d-block emp_label font-weight-400 pl-10px')][normalize-space()='In Review'])[1]"
-    task_status_template_backlog = "(//span[contains(@class,'d-block emp_label font-weight-400 pl-10px')][normalize-space()='Backlog'])[1]"
-    task_status_template_done = "(//span[contains(@class,'d-block emp_label font-weight-400 pl-10px')][normalize-space()='Done'])[1]"
+    task_status_template_in_progress = "(//div[@class='bg-white sidebar_item_main hover-bg-blue hover-white cursor-pointer d-flex align-items-center justify-content-between mobile-listuser'])[1]"
+    task_status_template_in_review = "(//div[@class='bg-white sidebar_item_main hover-bg-blue hover-white cursor-pointer d-flex align-items-center justify-content-between mobile-listuser'])[2]"
+    task_status_template_backlog = "(//div[@class='bg-white sidebar_item_main hover-bg-blue hover-white cursor-pointer d-flex align-items-center justify-content-between mobile-listuser'])[3]"
+    task_status_template_close_icon = "//div[@class='cursor-pointer d-flex align-items-center text-nowrap']//img"
+    task_status_templates_save_btn = "(//button[normalize-space()='Save Template'])[1]"
 
     # Step 8
     btn_enable_apps = "(//div[@class='toggle bg-lowlight-gray mr-10px'])[1]"
 
+    # Step 9
+
+    btn_add_custom_field = "(//button[normalize-space()='+ Add Custom Field'])[1]"
+    btn_number = "(//h5[normalize-space()='Number'])[1]"
+    txt_box_field_label = "(//input[@placeholder='Enter Field Label'])[1]"
+    txt_box_placeholder = "//input[@placeholder='Enter Placeholder']"
+    txt_box_text_area = "(//textarea[@id='text'])[1]"
+    btn_save = "(//button[normalize-space()='Save'])[1]"
+
     # Step 10
+
+    view_title = "(//h3[normalize-space()='Required views'])[1]"
 
     btn_board_view = "(//div[@class='toggle bg-lowlight-gray ml-5px'])[1]"
     board_view_label = "(//span[normalize-space()='Board'])[1]"
@@ -112,6 +132,44 @@ class CreateProject:
     option_template = "//div[@class='template_project_img']//img[@class='cursor-pointer']"
     btn_use_template = "//button[normalize-space()='Use Template']"
     toast_message_project = "//div[contains(@class, 'v-toast__item') and contains(@class, 'v-toast__item--success')]"
+
+    def click_on_add_custom_field(self):
+
+        btn_add_custom_field_locator = (By.XPATH, self.btn_add_custom_field)
+        btn_number_locator = (By.XPATH, self.btn_number)
+        txt_box_field_label_locator = (By.XPATH, self.txt_box_field_label)
+        txt_box_placeholder_locator = (By.XPATH, self.txt_box_placeholder)
+        txt_box_text_area_locator = (By.XPATH, self.txt_box_text_area)
+        btn_save_locator = (By.XPATH, self.btn_save)
+
+        try:
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_add_custom_field_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_add_custom_field_locator).click()
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_number_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_number_locator).click()
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=txt_box_field_label_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*txt_box_field_label_locator).send_keys("Number")
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=txt_box_placeholder_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*txt_box_placeholder_locator).send_keys("Enter Number")
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=txt_box_text_area_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*txt_box_text_area_locator).send_keys("Number Description ....sdsds")
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=btn_save_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*btn_save_locator).click()
+
+        except NoSuchElementException as e:
+            print(f"Error clicking on 'Add Custom Field' button: {e}")
 
     def __init__(self, driver):
         """
@@ -263,35 +321,45 @@ class CreateProject:
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'project type': {e}")
 
-    def generate_task_template_name(self):
-        unique_id = uuid.uuid4().hex[:4].capitalize()  # Generate a unique identifier
+    @staticmethod
+    def generate_task_template_name():
+        unique_id = uuid.uuid4().hex[:6].capitalize()  # Generate a unique identifier
         return f"{unique_id}"
 
     def select_task_type_template(self):
 
-        new_template_locator = (By.XPATH, self.task_type_new_template_btn)
+        new_template_btn_locator = (By.XPATH, self.task_type_new_template_btn)
         template_name_locator = (By.XPATH, self.task_type_template_name)
         template_save_locator = (By.XPATH, self.task_type_template_save_icon)
         template_add_task_type_locator = (By.XPATH, self.task_type_template_add_task_type_btn)
         template_bug_locator = (By.XPATH, self.task_type_template_bug)
         template_subtask_locator = (By.XPATH, self.task_type_template_subtask)
         template_close_locator = (By.XPATH, self.task_type_template_close_icon)
-        # template_save_btn_locator = (By.XPATH, self.template_save_btn)
-
-        self.template_name = self.generate_task_template_name()
+        template_save_btn_locator = (By.XPATH, self.template_save_btn)
+        template_name = self.generate_task_template_name()
+        login_page = LoginPage(self.driver)
 
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_btn_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*new_template_locator).click()
+            self.driver.find_element(*new_template_btn_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_name_locator).send_keys(self.template_name)
+            self.driver.find_element(*template_name_locator).send_keys(template_name)
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator,
                                                        timeout=self.timeout)
             self.driver.find_element(*template_save_locator).click()
+
+            login_page.retrieve_warning_message()
+
+            expected_warning_message = "Template has been created Successfully."
+            actual_warning_message = login_page.retrieve_warning_message()
+
+            assert actual_warning_message == expected_warning_message, (
+                f"Expected warning message '{expected_warning_message}' but got '{actual_warning_message}'"
+            )
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_task_type_locator,
                                                        timeout=self.timeout)
@@ -305,108 +373,130 @@ class CreateProject:
                                                        timeout=self.timeout)
             self.driver.find_element(*template_subtask_locator).click()
 
-            # webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btn_locator,
-            #                                            timeout=self.timeout)
-            # self.driver.find_element(*template_save_btn_locator).click()
-
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator,
                                                        timeout=self.timeout)
             self.driver.find_element(*template_close_locator).click()
 
-            # time.sleep(20)
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btn_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*template_save_btn_locator).click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting on 'task type template': {e}")
 
     def select_project_status_template(self):
 
-        new_template_locator = (By.XPATH, self.task_type_new_template_btn)
-        template_name_locator = (By.XPATH, self.task_type_template_name)
-        template_save_locator = (By.XPATH, self.task_type_template_save_icon)
-        template_add_status_locator = (By.XPATH, self.project_status_template_add_status_btn)
+        project_status_template_new_template_locator = (By.XPATH, self.project_status_template_new_template_btn)
+        project_status_template_name_locator = (By.XPATH, self.project_status_template_name)
+        project_status_template_save_locator = (By.XPATH, self.project_status_template_save_icon)
+        project_status_template_add_status_locator = (By.XPATH, self.project_status_template_add_status_btn)
+        project_status_template_done_locator = (By.XPATH, self.project_status_template_done)
+        project_status_template_on_hold_locator = (By.XPATH, self.project_status_template_on_hold)
+        project_status_template_completed_locator = (By.XPATH, self.project_status_template_completed)
+        project_status_template_close_btn_locator = (By.XPATH, self.project_status_template_close_icon)
+        project_status_templates_save_btn_locator = (By.XPATH, self.project_status_templates_save_btn)
+        login_page = LoginPage(self.driver)
 
-        template_done_locator = (By.XPATH, self.project_status_template_done)
-        template_on_hold_locator = (By.XPATH, self.project_status_template_on_hold)
-        template_completed_locator = (By.XPATH, self.project_status_template_completed)
-
-        template_close_btn_locator = (By.XPATH, self.task_type_template_close_icon)
-        templates_save_btn_locator = (By.XPATH, self.templates_save_btn)
-
-        self.template_name = self.generate_task_template_name()
+        template_name = self.generate_task_template_name()
 
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=project_status_template_new_template_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*new_template_locator).click()
+            self.driver.find_element(*project_status_template_new_template_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=project_status_template_name_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_name_locator).send_keys(self.template_name)
+            self.driver.find_element(*project_status_template_name_locator).send_keys(template_name)
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=project_status_template_save_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_save_locator).click()
+            self.driver.find_element(*project_status_template_save_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_status_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*template_add_status_locator).click()
+            login_page.retrieve_warning_message()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_done_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*template_done_locator).click()
+            expected_warning_message = "Template has been created Successfully."
+            actual_warning_message = login_page.retrieve_warning_message()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_on_hold_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*template_on_hold_locator).click()
+            assert actual_warning_message == expected_warning_message, (
+                f"Expected warning message '{expected_warning_message}' but got '{actual_warning_message}'"
+            )
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_completed_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=project_status_template_add_status_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_completed_locator).click()
+            self.driver.find_element(*project_status_template_add_status_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_btn_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=project_status_template_done_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_close_btn_locator).click()
+            self.driver.find_element(*project_status_template_done_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=templates_save_btn_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=project_status_template_on_hold_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*templates_save_btn_locator).click()
+            self.driver.find_element(*project_status_template_on_hold_locator).click()
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=project_status_template_completed_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*project_status_template_completed_locator).click()
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=project_status_template_close_btn_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*project_status_template_close_btn_locator).click()
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=project_status_templates_save_btn_locator,
+                                                       timeout=self.timeout)
+            self.driver.find_element(*project_status_templates_save_btn_locator).click()
 
         except (NoSuchElementException, TimeoutException) as e:
-            print(f"Error selecting on 'task type template': {e}")
+            print(f"Error selecting on 'project status template': {e}")
 
     def select_task_status_template(self):
 
-        new_template_locator = (By.XPATH, self.task_type_new_template_btn)
-        template_name_locator = (By.XPATH, self.task_type_template_name)
-        template_save_locator = (By.XPATH, self.task_type_template_save_icon)
-        template_add_status_locator = (By.XPATH, self.project_status_template_add_status_btn)
+        task_status_new_template_locator = (By.XPATH, self.task_status_template_new_template_btn)
+        task_status_template_name_locator = (By.XPATH, self.task_status_template_name)
+        task_status_template_save_locator = (By.XPATH, self.task_status_template_save_icon)
+        task_status_template_add_status_locator = (By.XPATH, self.task_status_template_add_status_btn)
 
         task_status_template_in_progress_locator = (By.XPATH, self.task_status_template_in_progress)
         task_status_template_in_review_locator = (By.XPATH, self.task_status_template_in_review)
         task_status_template_backlog_locator = (By.XPATH, self.task_status_template_backlog)
-        task_status_template_done_locator = (By.XPATH, self.task_status_template_done)
 
-        template_close_locator = (By.XPATH, self.task_type_template_close_icon)
-        template_save_btn_locator = (By.XPATH, self.template_save_btn)
+        task_status_template_close_locator = (By.XPATH, self.task_status_template_close_icon)
+        task_status_template_save_btn_locator = (By.XPATH, self.task_status_templates_save_btn)
+        login_page = LoginPage(self.driver)
 
-        self.template_name = self.generate_task_template_name()
+        template_name = self.generate_task_template_name()
 
         try:
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=new_template_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_new_template_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*new_template_locator).click()
+            self.driver.find_element(*task_status_new_template_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_name_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_template_name_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_name_locator).send_keys(self.template_name)
+            self.driver.find_element(*task_status_template_name_locator).send_keys(template_name)
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_template_save_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_save_locator).click()
+            self.driver.find_element(*task_status_template_save_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_add_status_locator,
+            login_page.retrieve_warning_message()
+
+            expected_warning_message = "Template has been created Successfully."
+            actual_warning_message = login_page.retrieve_warning_message()
+
+            assert actual_warning_message == expected_warning_message, (
+                f"Expected warning message '{expected_warning_message}' but got '{actual_warning_message}'"
+            )
+
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=task_status_template_add_status_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_add_status_locator).click()
+            self.driver.find_element(*task_status_template_add_status_locator).click()
 
             webdriver_wait_for_element_to_be_clickable(driver=self.driver,
                                                        locator=task_status_template_in_progress_locator,
@@ -422,17 +512,14 @@ class CreateProject:
                                                        timeout=self.timeout)
             self.driver.find_element(*task_status_template_backlog_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_template_done_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=task_status_template_close_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*task_status_template_done_locator).click()
+            self.driver.find_element(*task_status_template_close_locator).click()
 
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_close_locator,
+            webdriver_wait_for_element_to_be_clickable(driver=self.driver,
+                                                       locator=task_status_template_save_btn_locator,
                                                        timeout=self.timeout)
-            self.driver.find_element(*template_close_locator).click()
-
-            webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=template_save_btn_locator,
-                                                       timeout=self.timeout)
-            self.driver.find_element(*template_save_btn_locator).click()
+            self.driver.find_element(*task_status_template_save_btn_locator).click()
 
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting on 'task status template': {e}")
@@ -679,6 +766,17 @@ class CreateProject:
             return toast_element.text
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error verifying project toast message: {e}")
+            return None
+
+    def verify_view_title(self):
+        toast_locator = (By.XPATH, self.view_title)
+        try:
+            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=toast_locator,
+                                                             timeout=90)
+            toast_element = self.driver.find_element(*toast_locator)
+            return toast_element.text
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error verifying project view title: {e}")
             return None
 
     def get_created_project_name(self):
