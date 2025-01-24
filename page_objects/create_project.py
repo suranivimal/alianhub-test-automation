@@ -1,15 +1,13 @@
 import time
 import uuid
 
-from selenium.common import NoSuchElementException, TimeoutException, StaleElementReferenceException
-from selenium.webdriver import ActionChains
+import pyautogui
+from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.relative_locator import locate_with
+
 from page_objects.login_page import LoginPage
-
 from utils.common_utils import *
-import pyautogui
-
 from utils.read_properties import ReadConfig
 
 
@@ -50,7 +48,7 @@ class CreateProject:
     task_type_template_name = "(//input[@placeholder='Enter Template'])[1]"
     task_type_template_save_icon = "//span[@class='position-ab edit-rightinput save__closeimg-wrapper']//img[@class='cursor-pointer']"
     task_type_template_add_task_type_btn = "(//button[normalize-space()='+ Add Task Type'])[1]"
-    task_type_template_bug = "(//span[normalize-space()='Bug'])[1]"
+    task_type_template_bug = "(//span[contains(text(),'Bug')])[1]"
     task_type_template_subtask = "(//span[normalize-space()='Sub Task'])[1]"
     task_type_template_close_icon = "//div[@class='cursor-pointer d-flex align-items-center text-nowrap']//img"
     template_save_btn = "(//button[normalize-space()='Save Template'])[1]"
@@ -81,6 +79,9 @@ class CreateProject:
 
     # Step 8
     btn_enable_apps = "(//div[@class='toggle bg-lowlight-gray mr-10px'])[1]"
+    apps_title = "(//h3[normalize-space()='Choose Apps'])[1]"
+    custom_field_title = "(//button[normalize-space()='+ Add Custom Field'])[1]"
+
 
     # Step 9
 
@@ -124,7 +125,7 @@ class CreateProject:
     # btn_workload_view = "(//div)[610]"
     # btn_table_view = "(//div)[617]"
 
-    btn_next = "//button[normalize-space()='Next']"
+    btn_next = "(//button[normalize-space()='Next'])[1]"
     toggle_view_project_details = "//div[@id='my-sidebar']//div[3]//div[2]//div[2]"
     btn_create_project = "(//button[normalize-space()='Create Project'])[1]"
     project_list_fav = "//img[@id='projestleftlistfilter_driver']"
@@ -529,7 +530,7 @@ class CreateProject:
         try:
             webdriver_wait_for_element_to_be_clickable(driver=self.driver, locator=locator, timeout=self.timeout)
             self.driver.find_element(*locator).click()
-        except(NoSuchElementException, TimeoutException) as e:
+        except (NoSuchElementException, TimeoutException) as e:
             print(f"Error clicking on 'enable apps' button:{e}")
 
     def click_on_next_button(self):
@@ -777,6 +778,28 @@ class CreateProject:
             return toast_element.text
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error verifying project view title: {e}")
+            return None
+
+    def verify_apps_title(self):
+        toast_locator = (By.XPATH, self.apps_title)
+        try:
+            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=toast_locator,
+                                                             timeout=90)
+            toast_element = self.driver.find_element(*toast_locator)
+            return toast_element.text
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error verifying project apps title: {e}")
+            return None
+
+    def verify_custom_field_title(self):
+        toast_locator = (By.XPATH, self.custom_field_title)
+        try:
+            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=toast_locator,
+                                                             timeout=90)
+            toast_element = self.driver.find_element(*toast_locator)
+            return toast_element.text
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error verifying custom field title: {e}")
             return None
 
     def get_created_project_name(self):
