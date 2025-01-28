@@ -1,14 +1,24 @@
 import pytest
 import tempfile
+import shutil
 from _pytest.config import hookimpl
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-# Configure Chrome options globally
+# Configure Chrome options globally for headless mode
 chrome_options = Options()
 chrome_options.add_argument("--disable-infobars")
 chrome_options.add_argument("start-maximized")
 chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("--headless")  # Run in headless mode
+chrome_options.add_argument("--no-sandbox")  # Disable sandbox (required for some environments like Docker)
+chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
+chrome_options.add_argument("--remote-debugging-port=9222")  # Remote debugging port
+chrome_options.add_argument("--disable-dev-shm-usage")  # Helps to avoid "DevToolsActivePort file doesn't exist" error
+chrome_options.add_argument("--disable-software-rasterizer")  # Avoid issues related to software rasterizer
+chrome_options.add_argument("start-maximized")  # Ensure the browser window is maximized
+
+# Handle Chrome prefs for notifications and media
 chrome_options.add_experimental_option(
     "prefs", {
         "profile.default_content_setting_values.notifications": 1,
@@ -21,7 +31,7 @@ chrome_options.add_experimental_option(
 
 # Fixture to set up and configure browser (chrome or firefox)
 @pytest.fixture(scope="function")
-def setup(browser):
+def setup(browser, request):
     if browser == 'chrome':
         # Create a temporary directory for user data to avoid session conflicts
         user_data_dir = tempfile.mkdtemp()  # Generates a unique temp directory
@@ -29,15 +39,23 @@ def setup(browser):
 
         # Initialize Chrome WebDriver with the options
         driver = webdriver.Chrome(options=chrome_options)
-        print("Launching chrome browser.........")
+        print("Launching chrome browser in headless mode.........")
+
+        # Cleanup temporary user data directory after test run
+        def cleanup():
+            shutil.rmtree(user_data_dir)
+            print(f"Cleaned up temp directory {user_data_dir}")
+
+        # Ensure cleanup is done after test completes
+        request.addfinalizer(cleanup)
 
     elif browser == 'firefox':
-        driver = webdriver.Firefox()
-        print("Launching firefox browser.........")
+        driver = webdriver.Firefox(options=chrome_options)  # Add headless options for Firefox if needed
+        print("Launching firefox browser in headless mode.........")
 
     else:
         driver = webdriver.Chrome(options=chrome_options)
-        print("Launching default browser (chrome).........")
+        print("Launching default browser (chrome) in headless mode.........")
 
     yield driver
     driver.quit()
