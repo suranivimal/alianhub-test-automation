@@ -76,7 +76,7 @@ class TestLoginPage:
             login_page.set_password(self.invalid_password)
             login_page.click_on_login_button()
 
-            expected_warning_message = "Invalid username or password."
+            expected_warning_message = "Your email is invalid. Please check and try again"
             actual_warning_message = login_page.retrieve_warning_message()
 
             assert actual_warning_message == expected_warning_message, (
