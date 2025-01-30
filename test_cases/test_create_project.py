@@ -14,7 +14,6 @@ def generate_project_name(base_name="Project Test"):
     unique_id = uuid.uuid4().hex[:8].capitalize()  # Generate a unique identifier
     return f"{base_name} {unique_id}"
 
-
 def generate_project_key(base_key="PROJ"):
     unique_id = uuid.uuid4().hex[:8].upper()  # Generate a unique identifier (uppercase)
     return f"{base_key}-{unique_id}"
