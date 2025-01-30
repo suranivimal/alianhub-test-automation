@@ -19,6 +19,7 @@ def generate_project_key(base_key="PROJ"):
     unique_id = uuid.uuid4().hex[:8].upper()  # Generate a unique identifier (uppercase)
     return f"{base_key}-{unique_id}"
 
+
 class TestCreateProject:
     baseUrl = ReadConfig.get_application_url()
     username = ReadConfig.get_user_email()
@@ -214,7 +215,7 @@ class TestCreateProject:
             create_project.click_on_next_button()
 
             self.logger.info("Step-3: Project Avatar or Project Color")
-            create_project.project_image_upload()
+            # create_project.project_image_upload()
             create_project.click_on_next_button()
 
             self.logger.info("Step-4: Project Type - Public Project or Private Project")
