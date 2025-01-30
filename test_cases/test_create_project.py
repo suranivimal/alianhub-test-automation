@@ -19,6 +19,7 @@ def generate_project_key(base_key="PROJ"):
     unique_id = uuid.uuid4().hex[:8].upper()  # Generate a unique identifier (uppercase)
     return f"{base_key}-{unique_id}"
 
+
 class TestCreateProject:
     baseUrl = ReadConfig.get_application_url()
     username = ReadConfig.get_user_email()
