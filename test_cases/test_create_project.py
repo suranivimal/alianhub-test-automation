@@ -9,6 +9,7 @@ from utils.read_properties import ReadConfig
 from utils.custom_logger import LogGen
 from utils.common_utils import capture_screenshot
 
+
 def generate_project_name(base_name="Project Test"):
     unique_id = uuid.uuid4().hex[:8].capitalize()  # Generate a unique identifier
     return f"{base_name} {unique_id}"
