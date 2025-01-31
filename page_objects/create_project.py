@@ -82,7 +82,6 @@ class CreateProject:
     apps_title = "(//h3[normalize-space()='Choose Apps'])[1]"
     custom_field_title = "(//button[normalize-space()='+ Add Custom Field'])[1]"
 
-
     # Step 9
 
     btn_add_custom_field = "(//button[normalize-space()='+ Add Custom Field'])[1]"
@@ -125,6 +124,7 @@ class CreateProject:
     # btn_workload_view = "(//div)[610]"
     # btn_table_view = "(//div)[617]"
 
+    txt_project_template = "(//p[@class='privatespace-desc-desktop'])[1]"
     btn_next = "(//button[normalize-space()='Next'])[1]"
     toggle_view_project_details = "//div[@id='my-sidebar']//div[3]//div[2]//div[2]"
     btn_create_project = "(//button[normalize-space()='Create Project'])[1]"
@@ -271,6 +271,17 @@ class CreateProject:
             self.driver.find_element(By.XPATH, self.sidebar_category_list_option_hourly_price).click()
         except (NoSuchElementException, TimeoutException) as e:
             print(f"Error selecting category: {e}")
+
+    def verify_project_template_text(self):
+        txt_locator = (By.XPATH, self.txt_project_template)
+        try:
+            webdriver_wait_for_visibility_of_element_located(driver=self.driver, element_tuple=txt_locator,
+                                                             timeout=90)
+            txt_element = self.driver.find_element(*txt_locator)
+            return txt_element.text
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"Error verifying project template title: {e}")
+            return None
 
     def click_on_lead_dropdown(self):
         """

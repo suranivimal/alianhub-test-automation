@@ -85,6 +85,10 @@ class TestCreateProject:
             create_project.click_on_next_button()
 
             self.logger.info(
+                "Step-8: Custom Field")
+            create_project.click_on_next_button()
+
+            self.logger.info(
                 "Step-9: Enable Views - List, Board, Project Details, Comments, Calendar, Activity, Workload, and Table")
             # create_project.click_on_view_radio_button()
             create_project.click_on_next_button()
@@ -147,8 +151,7 @@ class TestCreateProject:
 
             create_project.click_on_category_dropdown()
             create_project.select_category()
-
-            time.sleep(25)
+            create_project.verify_project_template_text()
             create_project.click_on_create_project()
 
             # Verify Toast Message and Refresh
